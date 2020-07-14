@@ -11,3 +11,5 @@ Ctrl + F5 or `flutter run` to open the app on a real android/iphone device or a 
 # Preview
 
 <img src="assets/images/demo1.gif">
+
+<img src="assets/images/demo2.gif">
