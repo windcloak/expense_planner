@@ -10,71 +10,81 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return 
-      // ListView builder for long lists or unknown length list
-      // ListView children for shorter lists
-     transactions.isEmpty
-          ? Column(
-              children: <Widget>[
-                Text(
-                  'No transactions added yet',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                SizedBox(
-                  // separator
-                  height: 20,
-                ),
-                Container(
-                  height: 200,
-                  child: Image.asset(
-                    'assets/images/waiting.png',
-                    fit: BoxFit.cover, // takes height of parent
-                  ),
-                ),
-              ],
-            )
-          : ListView.builder(
-              // column with scrollview and infinite height (height of parent)
-              itemBuilder: (ctx, index) {
-                // called for every new list item
-
-                return Card(
-                  margin: EdgeInsets.symmetric(
-                    vertical: 8,
-                    horizontal: 5,
-                  ),
-                  elevation: 5,
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      radius: 30,
-                      child: Padding(
-                        padding: EdgeInsets.all(6),
-                        child: FittedBox(
-                          child: Text('\$${transactions[index].amount.toStringAsFixed(2)}'),
-                        ),
-                      ),
-                    ),
-                    title: Text(
-                      transactions[index].title,
+    return
+        // ListView builder for long lists or unknown length list
+        // ListView children for shorter lists
+        transactions.isEmpty
+            ? LayoutBuilder(builder: (ctx, constraints) {
+                return Column(
+                  children: <Widget>[
+                    Text(
+                      'No transactions added yet',
                       style: Theme.of(context).textTheme.headline6,
                     ),
-                    subtitle: Text(
-                      DateFormat.yMMMd().format(transactions[index].date),
+                    SizedBox(
+                      // separator
+                      height: 20,
                     ),
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete),
-                      color: Theme.of(context).errorColor,
-                      // onPressed normally doesn't pass arguments
-                      // Must wrap this in anoymous fx to pass idjjj
-                      onPressed: () => deleteTx(transactions[index].id),
+                    Container(
+                      height: constraints.maxHeight * 0.6,
+                      child: Image.asset(
+                        'assets/images/waiting.png',
+                        fit: BoxFit.cover, // takes height of parent
+                      ),
                     ),
-                  ),
+                  ],
                 );
-              },
-              itemCount: transactions.length,
-              // children: transactions.map((transactions[index]) {
-              //   return
-              // }).toList(),
-    );
+              })
+            : ListView.builder(
+                // column with scrollview and infinite height (height of parent)
+                itemBuilder: (ctx, index) {
+                  // called for every new list item
+
+                  return Card(
+                    margin: EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 5,
+                    ),
+                    elevation: 5,
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        radius: 30,
+                        child: Padding(
+                          padding: EdgeInsets.all(6),
+                          child: FittedBox(
+                            child: Text(
+                                '\$${transactions[index].amount.toStringAsFixed(2)}'),
+                          ),
+                        ),
+                      ),
+                      title: Text(
+                        transactions[index].title,
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                      subtitle: Text(
+                        DateFormat.yMMMd().format(transactions[index].date),
+                      ),
+                      trailing: MediaQuery.of(context).size.width > 460
+                          ? FlatButton.icon(
+                              icon: Icon(Icons.delete),
+                              label: Text('Delete'),
+                              textColor: Theme.of(context).errorColor,
+                              onPressed: () => deleteTx(transactions[index].id),
+                            )
+                          : IconButton(
+                              icon: Icon(Icons.delete),
+                              color: Theme.of(context).errorColor,
+                              // onPressed normally doesn't pass arguments
+                              // Must wrap this in anoymous fx to pass
+                              onPressed: () => deleteTx(transactions[index].id),
+                            ),
+                    ),
+                  );
+                },
+                itemCount: transactions.length,
+                // children: transactions.map((transactions[index]) {
+                //   return
+                // }).toList(),
+              );
   }
 }
