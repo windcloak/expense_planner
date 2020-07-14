@@ -10,11 +10,10 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 300,
+    return 
       // ListView builder for long lists or unknown length list
       // ListView children for shorter lists
-      child: transactions.isEmpty
+     transactions.isEmpty
           ? Column(
               children: <Widget>[
                 Text(
@@ -51,7 +50,7 @@ class TransactionList extends StatelessWidget {
                       child: Padding(
                         padding: EdgeInsets.all(6),
                         child: FittedBox(
-                          child: Text('\$${transactions[index].amount}'),
+                          child: Text('\$${transactions[index].amount.toStringAsFixed(2)}'),
                         ),
                       ),
                     ),
@@ -76,7 +75,6 @@ class TransactionList extends StatelessWidget {
               // children: transactions.map((transactions[index]) {
               //   return
               // }).toList(),
-            ),
     );
   }
 }
